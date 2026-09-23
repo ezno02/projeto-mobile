@@ -1,21 +1,31 @@
-import { Text, View, StyleSheet } from "react-native";
-import { useState, useEffect } from "react";
-import axios from 'axios'
-import { getPokemons, funcaoExportarPokemons } from "./getPokemons";
+import { useEffect, useState } from "react";
+import { StyleSheet, Text, View, FlatList } from "react-native";
+import Cards from "./components/Cards";
+import { fetchPokemons } from "./getPokemons";
 
 export default function Index() {
-  const [pokemons, setPokemons] = useState([])
+  const [pokedex, setPokedex] = useState([]);
 
+  useEffect(() => {
+    async function carregarPokemons() {
+      const pokemons = await fetchPokemons();
+      setPokedex(pokemons);
+      // console.log(pokemons)
+    }
 
+    carregarPokemons();
 
-  useEffect (() => {
-    funcaoExportarPokemons()
-    // getPokemons(1)
   }, [])
   return (
-    <View style={styles.container}>
-      <Text></Text>
-    </View>
+    <FlatList
+      data={pokedex}
+      renderItem={({ pokemon }) => (
+        <View>
+          <Text>{pokemon.name}</Text>
+        </ View>
+      )}
+    />
+
   );
 }
 
