@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
-import Cards from "./components/Cards";
+import { FlatList, Text, View, Image } from "react-native";
+import { styles } from "./style";
 import { fetchPokemons } from "./getPokemons";
 
 export default function Index() {
@@ -17,22 +17,22 @@ export default function Index() {
 
   }, [])
   return (
-    <FlatList
-      data={pokedex}
-      renderItem={({ pokemon }) => (
-        <View>
-          <Text>{pokemon.name}</Text>
-        </ View>
-      )}
-    />
+    <View style={{ flex: 1, backgroundColor: "#1e1857" }}>
+      <Text style={{ color: "white", textAlign: "center", fontSize: 30, margin: 10 }}>Pokedex</Text>
+      <FlatList
+        style={{ flex: 1 }}
+        data={pokedex}
+        contentContainerStyle={styles.Cards}
+        renderItem={({ item }) => (
+          <View style={styles.Card}>
+            <Image style={styles.img} source={{ uri: item.pokemon_v2_pokemonsprites[0].sprites.other["official-artwork"].front_default }} />
+            {/* {console.log(item.pokemon_v2_pokemonsprites[0].sprites.other["official-artwork"].front_default)} */}
+            <Text style={{ color: "white" }}>{item.name}</Text>
+          </ View>
+        )}
+      />
+    </View>
 
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
